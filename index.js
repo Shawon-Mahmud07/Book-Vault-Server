@@ -62,6 +62,11 @@ async function run() {
       res.send(result);
     });
 
+    // gat all product from the database
+    app.get("/all-product", async (req, res) => {
+      const result = await storeProductsCollections.find().toArray();
+      res.send(result);
+    });
     // gat all books from the database
     app.get("/all-books", async (req, res) => {
       const result = await bookCollections.find().toArray();
