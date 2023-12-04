@@ -53,7 +53,7 @@ async function run() {
     });
 
     // get user store info from the database
-    app.get("/user-store/:email", async (req, res) => {
+    app.get("/user-store", async (req, res) => {
       let query = {};
       if (req.query?.email) {
         query = { email: req.query.email };
