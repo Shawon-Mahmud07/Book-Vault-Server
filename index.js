@@ -27,6 +27,10 @@ async function run() {
 
     // Get the database and collection on which to run the operation
     const bookCollections = client.db("BookInventory").collection("books");
+    const storeCollections = client.db("BookInventory").collection("store");
+    const storeProductsCollections = client
+      .db("BookInventory")
+      .collection("storeProducts");
 
     // Insert a book to the DB: post method
     app.post("/upload-book", async (req, res) => {
@@ -34,6 +38,30 @@ async function run() {
       const result = await bookCollections.insertOne(data);
       res.send(result);
     });
+
+    // Insert "create store" info to the DB: post method
+    app.post("/create-store", async (req, res) => {
+      const data = req.body;
+      const result = await storeCollections.insertOne(data);
+      res.send(result);
+    });
+    // add store product info to the DB: post method
+    app.post("/upload-product", async (req, res) => {
+      const data = req.body;
+      const result = await storeProductsCollections.insertOne(data);
+      res.send(result);
+    });
+
+    // get user store info from the database
+    app.get("/user-store/:email", async (req, res) => {
+      let query = {};
+      if (req.query?.email) {
+        query = { email: req.query.email };
+      }
+      const result = await storeCollections.find(query).toArray();
+      res.send(result);
+    });
+
     // gat all books from the database
     app.get("/all-books", async (req, res) => {
       const result = await bookCollections.find().toArray();
