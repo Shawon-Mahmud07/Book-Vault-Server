@@ -62,7 +62,7 @@ async function run() {
       res.send(result);
     });
 
-    // get user store info from the database
+    // get user store info from DB: get method
     app.get("/user-store", async (req, res) => {
       let query = {};
       if (req.query?.email) {
@@ -72,7 +72,7 @@ async function run() {
       res.send(result);
     });
 
-    // get user store products info by email from the database
+    // get user store products info by email from DB: get method
     app.get("/store-products", async (req, res) => {
       let query = {};
       if (req.query?.email) {
@@ -81,12 +81,22 @@ async function run() {
       const result = await storeProductsCollections.find(query).toArray();
       res.send(result);
     });
+    // get all Check-Out products by email from DB: get method
+    app.get("/checkOut-product", async (req, res) => {
+      let query = {};
+      if (req.query?.email) {
+        query = { email: req.query.email };
+      }
+      const result = await checkOutCollections.find(query).toArray();
+      res.send(result);
+    });
 
     // get all product from the database
     app.get("/all-product", async (req, res) => {
       const result = await storeProductsCollections.find().toArray();
       res.send(result);
     });
+
     // get all books from the database
     app.get("/all-books", async (req, res) => {
       const result = await bookCollections.find().toArray();
